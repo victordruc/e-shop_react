@@ -1,0 +1,14 @@
+li {
+    list-style-type: none;
+}
+
+ul {
+    padding: 0;
+    margin: 20px;
+}
+
+.list_card {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 10px 10px;
+}
