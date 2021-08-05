@@ -1,10 +1,15 @@
 import './Product.css'
-let Product = ({product:{id,name,image}}) => {
+import Images from '../ui/Images'
+
+const Product = ({product:{name,imageUrl}, element:{element:Element, className}={element:"div"}}) => {
  return(
-     <li className="card">
+     <Element className={className}>
          <h2>{name}</h2>
-         <img src={image} alt={id}/>
-     </li>
+         {/* HW1: key necesary?
+            Nu avem nevoie de key in cazul dat deoarece componente <Images/> nu se modifica in interiorul componentei date, chiar daca <Product\> va fi apelata in cadrul unui Array componenta <Images/> va fi unica in cadrul fiecarui element.
+         */}
+         <Images url={imageUrl} alt={name}/>
+     </Element>
  )
 }
 

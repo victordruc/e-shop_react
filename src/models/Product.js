@@ -1,15 +1,15 @@
 class Product {
-    constructor(id, name, image) {
+    constructor(id, name, imageUrl) {
         this.id = id
         this.name = name
-        this.image = image
+        this.imageUrl = imageUrl
     }
 
     toPOJO() {
         return {
             id: this.id,
             name: this.name,
-            image: this.image
+            imageUrl: this.imageUrl
         }
     }
 

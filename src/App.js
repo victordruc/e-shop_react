@@ -9,14 +9,19 @@ function App() {
     new ProductData(3,"Apple","https://cdn.pixabay.com/photo/2017/09/26/13/31/apple-2788616_960_720.jpg").toPOJO()
   ]
   return (
-    <ul className="list_card">
+    <div className="list_card">
+      {/* 
+      HW2: keys heare:
+        Aici avem nevoie de key deaorece pentru un render mai eficient, React verifica fiecare key in cadrul listei si adauga sau modifica doar elementul a carui key difera sau necesita modificat.
+      */}
       {products.map(product => 
-        <Product 
+        <Product
+          element={{element:"div",className:"card"}}
           product={product}
           key={product.id}
         />
       )}
-    </ul>
+    </div>
   );
 }
 
