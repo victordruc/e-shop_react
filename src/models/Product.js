@@ -1,17 +1,11 @@
-import Money from './Money'
-import Attribute from './Attribute'
-
 class Product {
-    constructor(id, name, imageUrls, {standard, discount}=false, description, attributes=false) {
+    constructor(id, name, imageUrls, price, description, attributes) {
         this.id = id
         this.name = name
-        this.imageUrls = Array.isArray(imageUrls)?imageUrls:[]
-        this.price =  {
-            standard: standard?new Money(standard.amount, standard.currency).toPOJO():false,
-            discount: discount?new Money(discount.amount, discount.currency).toPOJO():false
-        }
+        this.imageUrls = imageUrls
+        this.price = price
         this.description = description
-        this.attributes = attributes?attributes.map(atr=>new Attribute(atr.name, atr.value).toPOJO()):[]
+        this.attributes = attributes
     }
 
     toPOJO() {
