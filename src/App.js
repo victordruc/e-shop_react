@@ -1,26 +1,17 @@
-import Product from "./components/product/Product";
-import "./App.css";
-import ProductServices from "./models/ProductServices";
-// import CartModel from "./models/Cart";
-import HOC from "./components/cart/Cart";
+import ProductContainer from "./components/product/ProductContainer";
+import Container from "@material-ui/core/Container";
+import Header from "./components/header/header";
+import { HOCState } from "./components/HOCState/HOCState";
 
 function App() {
-  let products = ProductServices.getProduct();
-  // let cart = new CartModel()
-
   return (
     <div>
-      <header style={{textAlign:"right"}}>
-        <HOC cartCount={0}/>
-      </header>
-      <hr/>
-      <div className="list_card">
-        {products.map((product) => (
-          <div key={product.id} className="card">
-            <Product product={product} />
-          </div>
-        ))}
-      </div>
+      <HOCState>
+        <Header />
+        <Container>
+          <ProductContainer />
+        </Container>
+      </HOCState>
     </div>
   );
 }
