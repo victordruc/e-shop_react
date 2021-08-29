@@ -1,5 +1,5 @@
 import Money from "../ui/Money";
-import { useState, useEffect, useContext } from "react";
+import { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -12,11 +12,13 @@ import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import {CartContext} from "../HOCState/HOCState"
+import { CartContext } from "../../state/HOCState";
+import Carousel from "../ui/Carousel";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: 260,
     height: 480,
     display: "flex",
     flexDirection: "column",
@@ -28,27 +30,25 @@ const useStyles = makeStyles({
   },
 });
 const Product = ({
-  product: {id, name, imageUrls, price, description, attributes },
+  product: { id, name, imageUrls, price, description, attributes },
 }) => {
   const classes = useStyles();
-  const [slide, changeSlide] = useState(0);
-
-  const carousel = imageUrls.map((url) => (
-    <CardMedia className={classes.media} image={url} title={name} />
-  ));
-
-  useEffect(() => {
-    const carouselTimer = setInterval(() => {
-        slide < imageUrls.length - 1 ? changeSlide(slide + 1) : changeSlide(0);
-    }, 3000);
-    return () => clearInterval(carouselTimer);
-  });
-  const {actionDisptach} = useContext(CartContext)
-
+  const { state, dispatch } = useContext(CartContext);
+  let [runSlider, setRunSlider] = useState(false);
   return (
-    <Card className={classes.root}>
+    <Card
+      className={classes.root}
+      onMouseEnter={() => {
+        setRunSlider(true);
+      }}
+      onMouseLeave={() => {
+        setRunSlider(false);
+      }}
+    >
       <CardActionArea>
-        {carousel[slide]}
+        <CardMedia className={classes.media}>
+          <Carousel imageUrls={imageUrls} runSlider={runSlider} />
+        </CardMedia>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {name}
@@ -105,9 +105,28 @@ const Product = ({
         </CardContent>
       </CardActionArea>
       <CardActions style={{ justifyContent: "center" }}>
-        <Button onClick={()=>{actionDisptach(id)}} variant="contained" color="secondary">
-          Buy
-        </Button>
+        {state.cart.items.map(
+          (item) =>
+            item.id === id && (
+              <ButtonGroup variant="contained" color="secondary">
+                <Button onClick={() => dispatch({ type: "add", id })}>+</Button>
+                <Button onClick={() => dispatch({ type: "add", id })}>
+                  Buy {item.quantity + " Pcs"}
+                </Button>
+                <Button onClick={() => dispatch({ type: "remove", id })}>-</Button>
+              </ButtonGroup>
+            )
+        )}
+
+        {state.cart.items.some((item) => item.id === id) || (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => dispatch({ type: "add", id })}
+          >
+            Buy
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
