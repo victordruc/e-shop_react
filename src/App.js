@@ -1,4 +1,4 @@
-import ProductContainer from "./components/product/ProductContainer";
+import Products from "./components/product/Products";
 import Container from "@material-ui/core/Container";
 import Header from "./components/header/Header";
 import { HOCState } from "./state/HOCState";
@@ -10,7 +10,7 @@ function App() {
       <HOCState initState={initState} reducer={cartReducer}>
         <Header />
         <Container>
-          <ProductContainer />
+          <Products />
         </Container>
       </HOCState>
     </div>

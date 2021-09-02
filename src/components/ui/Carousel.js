@@ -30,7 +30,7 @@ const Carousel = ({ imageUrls, runSlider }) => {
   return (
     <div style={{...style.root, left:`-${leftPosition}%`}}>
       {imageUrls.map((url, index) => 
-      <div style = {style.sliderLine}>
+      <div style = {style.sliderLine} key={index}>
             <img src={url} style={{width: "100%", height:"100%"}} alt={index} />
       </div>
       )}
