@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Carousel from "../ui/Carousel";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
+import {Link} from "react-router-dom"
 
 const useStyles = makeStyles({
   root: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
     height: 200,
   },
 });
-const ProductCard = ({ actions, name, imageUrls, content, listAction }) => {
+const ProductCard = ({id, actions, name, imageUrls, content, listAction }) => {
   const classes = useStyles();
   let [runSlider, setRunSlider] = useState(false);
   return (
@@ -45,7 +46,7 @@ const ProductCard = ({ actions, name, imageUrls, content, listAction }) => {
         }
       />
 
-      <CardActionArea>
+      <CardActionArea component={Link} to={`/product/${id}`}>
         <CardMedia className={classes.media}>
           <Carousel imageUrls={imageUrls} runSlider={runSlider} />
         </CardMedia>
