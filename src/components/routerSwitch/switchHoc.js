@@ -1,8 +1,10 @@
-import {Switch} from "react-router-dom";
+import {Switch, Route} from "react-router-dom";
+import PageError from "../pageError/PageError";
 
 const switchHoc = (Component) => () => {
     return(
         <Switch>
+            <Route path="/error" component={PageError} />
             <Component/>
         </Switch>
     ) 

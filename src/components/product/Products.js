@@ -7,7 +7,7 @@ import ProductServices from "../../models/ProductServices";
 import AddToCartButton from "../cart/AddToCartButton";
 
 const Products = () => {
-  let products = ProductServices.getProduct();
+  let products = new ProductServices().getProduct();
   return (
     <Box mt={1}>
       <Grid container spacing={2}>

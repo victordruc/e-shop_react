@@ -1,7 +1,7 @@
 import Cart from "../models/Cart";
 import ProductServices from "../models/ProductServices";
 
-const products = ProductServices.getProduct();
+const products = new ProductServices().getProduct();
 
 const cart = new Cart(1, products)
 
@@ -11,6 +11,7 @@ export const initState = {
 }
 
 export const cartReducer = (state, action) => {
+  cart.items = [...state.cart.items]
   switch (action.type) {
     case 'add':
       return {...state, cart:cart.add(action.id), count: cart.getCount()};

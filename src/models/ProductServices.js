@@ -3,10 +3,11 @@ import Attribute from './Attribute'
 import Money from './Money'
 
 class ProductServices {
+    constructor() {
+        this.products = []
+    }
 
-    static getProduct() {
-        let products = []
-
+    getProduct() {
         const PRODUCTSLIST = [{
                 id: 1,
                 name: "Cherries",
@@ -46,7 +47,7 @@ class ProductServices {
             },
 
             {
-                id: 3,
+                id: "product3",
                 name: "Apple",
                 foto: ["https://cdn.pixabay.com/photo/2017/09/26/13/31/apple-2788616_960_720.jpg", "https://cdn.pixabay.com/photo/2016/11/30/15/00/apples-1872997_960_720.jpg", "https://cdn.pixabay.com/photo/2015/10/24/20/03/apples-1004886_960_720.jpg"],
                 price: {
@@ -67,7 +68,7 @@ class ProductServices {
             }
         ]
 
-        PRODUCTSLIST.forEach(({id, name, foto, price:{standard, discount}, description, attribute})=>products.push(
+        PRODUCTSLIST.forEach(({id, name, foto, price:{standard, discount}, description, attribute})=>this.products.push(
             new ProductData(
                 id,
                 name,
@@ -80,13 +81,13 @@ class ProductServices {
                 attribute.map(atr => new Attribute(atr.name, atr.value).toPOJO())
             ).toPOJO())
         )
-
-        return products
+        return this.products
     }
 
-    
-
-    
+    getSingleProduct(id) {
+        this.getProduct()
+        return this.products.find(item=>item.id.toString()===id.toString())
+    }
 }
 
 export default ProductServices

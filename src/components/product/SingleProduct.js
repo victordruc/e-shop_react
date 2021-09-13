@@ -5,8 +5,9 @@ import ProductContent from "./ProductContent";
 import ProductServices from "../../models/ProductServices";
 import AddToCartButton from "../cart/AddToCartButton";
 import Carousel from "../ui/Carousel";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Redirect } from "react-router-dom";
 import { Button } from "@material-ui/core";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,11 +34,15 @@ const SingleProduct = () => {
   const classes = useStyles();
   let { id } = useParams();
   let history = useHistory();
-  let products = ProductServices.getProduct()[id - 1];
+  const products = new ProductServices().getSingleProduct(id)
+
+  if(!products) {
+    return <Redirect to="/error"/>
+  }
 
   return (
     <div className={classes.root}>
-      <Button variant="contained" color="primary" onClick={()=>history.goBack()}>
+      <Button variant="contained" color="primary" onClick={()=>history.goBack()} startIcon={<ArrowBackIosIcon />}>
         Back
       </Button>
       <Grid container justifyContent="center" spacing={2}>
