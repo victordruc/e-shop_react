@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+</head>
+
+<body>
+
+    <h1>Home Page</h1>
+
+    <div id="content">
+        <!-- JS Load -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const content = document.getElementById("content")
+
+        // ############### AJAX #####################
+
+        // function getAllProducts(url) {
+        //     let xhr = new XMLHttpRequest()
+        //     xhr.open("GET", url)
+        //     xhr.onload=() => {
+        //         let products = JSON.parse(xhr.response)
+        //         // HW3: refactor for antother method->ok
+        //         content.innerHTML = "<h2>Load Products</h2>"
+        //         products.forEach(({id,name,price}) => {
+        //             content.innerHTML +=
+        //                 `
+        //                 <div>
+        //                     Name: ${name}    
+        //                     Price : ${price}
+        //                     <button onclick="getProductDetails(${id})">view details</button>
+        //                 </div>
+        //                 `
+        //         });
+        //     }
+        //     xhr.send()
+        // }
+
+
+        // function getProductDetails(id) {
+        //     let xhr = new XMLHttpRequest()
+        //     xhr.open("GET", `/api/products/${id}`)
+        //     xhr.onload=() => {
+        //         let {name,price} = JSON.parse(xhr.response)
+        //             content.innerHTML = ""
+        //             content.innerHTML +=
+        //                         `
+        //                 <h2>Product Details</h2>
+        //                 <div>
+        //                     Name: ${name}    
+        //                     Price : ${price}
+        //                 </div>
+        //                 <button onclick=getAllProducts("/api/"+"products")>goBack</button>
+        //                 `
+        //     }
+        //     xhr.send()
+        // }
+
+        // getAllProducts("/api/products")
+
+        //HW2: refactor fetch -> ok
+
+        // ############### FETCH #####################
+
+        // async function getAllProducts(url) {
+        //     const response = await fetch(url)
+        //     const products = await response.json()
+        //     content.innerHTML = "<h2>Load Products</h2>"
+        //     products.forEach(({ id, name, price }) => {
+        //         content.innerHTML +=
+        //             `
+        //                 <div>
+        //                     Name: ${name}    
+        //                     Price : ${price}
+        //                     <button onclick="getProductDetails(${id})">view details</button>
+        //                 </div>
+        //                 `
+        //     });
+        // }
+
+        // async function getProductDetails(id) {
+        //     const response = await fetch(`/api/products/${id}`)
+        //     const { name, price } = await response.json()
+        //     content.innerHTML = ""
+        //     content.innerHTML +=
+        //         `
+        //                 <h2>Product Details</h2>
+        //                 <div>
+        //                     Name: ${name}    
+        //                     Price : ${price}
+        //                 </div>
+        //                 <button onclick=getAllProducts("/api/"+"products")>goBack</button>
+        //                 `
+        // }
+
+        // getAllProducts("/api/products")
+
+
+        // ############### AXIOS #####################
+        // HW4: AXIOS
+
+        const instance = axios.create({
+            baseURL: '/api/products/',
+        });
+
+        async function getAllProducts() {
+            const {data} = await instance()
+            content.innerHTML = "<h2>Load Products</h2>"
+            data.forEach(({ id, name, price }) => {
+                content.innerHTML +=
+                    `
+                        <div>
+                            Name: ${name}    
+                            Price : ${price}
+                            <button onclick="getProductDetails(${id})">view details</button>
+                        </div>
+                        `
+            });
+        }
+
+        async function getProductDetails(id) {
+            const {data:{name, price}} = await instance.get(`${id}`)
+            content.innerHTML = ""
+            content.innerHTML +=
+                `
+                        <h2>Product Details</h2>
+                        <div>
+                            Name: ${name}    
+                            Price : ${price}
+                        </div>
+                        <button onclick=getAllProducts("/api/"+"products")>goBack</button>
+                        `
+        }
+
+        getAllProducts()
+    </script>
+
+</body>
+
+</html>
