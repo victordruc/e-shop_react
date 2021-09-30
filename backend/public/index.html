@@ -9,7 +9,7 @@
 
 <body>
 
-    <h1>Home Page</h1>
+    <h1>Products Page</h1>
 
     <div id="content">
         <!-- JS Load -->
@@ -106,36 +106,36 @@
         // ############### AXIOS #####################
         // HW4: AXIOS
 
-        const instance = axios.create({
+        const instanceAxios = axios.create({
             baseURL: '/api/products/',
         });
 
         async function getAllProducts() {
-            const {data} = await instance()
+            const {data} = await instanceAxios()
             content.innerHTML = "<h2>Load Products</h2>"
             data.forEach(({ id, name, price }) => {
                 content.innerHTML +=
                     `
                         <div>
                             Name: ${name}    
-                            Price : ${price}
-                            <button onclick="getProductDetails(${id})">view details</button>
+                            Price : ${price.standard.amount}
+                            <button onclick=getProductDetails("${id}")>view details</button>
                         </div>
                         `
             });
         }
 
         async function getProductDetails(id) {
-            const {data:{name, price}} = await instance.get(`${id}`)
+            const {data:{name, price}} = await instanceAxios.get(id)
             content.innerHTML = ""
             content.innerHTML +=
                 `
                         <h2>Product Details</h2>
                         <div>
                             Name: ${name}    
-                            Price : ${price}
+                            Price : ${price.standard.amount}
                         </div>
-                        <button onclick=getAllProducts("/api/"+"products")>goBack</button>
+                        <button onclick=getAllProducts()>goBack</button>
                         `
         }
 
