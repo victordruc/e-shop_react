@@ -29,7 +29,7 @@ class ProductServices {
 
     getSingleProduct(id) {
         this.getProduct()
-        return this.products.find(item=>item.id==id)
+        return this.products.find(item=>item.id==id) || null
     }
 }
 
