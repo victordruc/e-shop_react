@@ -1,24 +1,37 @@
-import Cart from "../models/Cart";
-import ProductServices from "../models/ProductServices";
-
-const products = new ProductServices().getProduct();
-
-const cart = new Cart(1, products)
-
 export const initState = {
-    cart: cart.toPOJO(),
-    count: cart.getCount(),
+  cart: {
+    items: []
+  },
+  isPending: true,
+  error: false
 }
 
 export const cartReducer = (state, action) => {
-  cart.items = [...state.cart.items]
   switch (action.type) {
+    case 'get':
+      return {
+        cart: action.payload, isPending: false, error: false
+      };
     case 'add':
-      return {...state, cart:cart.add(action.id), count: cart.getCount()};
+      return {
+        cart: action.payload, isPending: false, error: false
+      };
     case 'remove':
-      return {...state, cart:cart.remove(action.id), count: cart.getCount()};
+      return {
+        cart: action.payload, isPending: false, error: false
+      };
     case 'removeAllQuantity':
-      return {...state, cart:cart.removeAllQty(action.id), count: cart.getCount()};
+      return {
+        cart: action.payload, isPending: false, error: false
+      };
+    case 'pending':
+      return {
+        ...state, isPending: true, error: false
+      };
+    case 'error':
+      return {
+        ...state, error:true
+      };
     default:
       return state
   }

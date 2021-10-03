@@ -1,12 +1,12 @@
 const ProductData = require( "../models/Product" ) 
 const Attribute = require( '../models/Attribute' ) 
 const Money = require( '../models/Money' ) 
-const products = require( "../data/products.json" ) 
+const fs = require("fs")
 
 class ProductServices {
     constructor() {
         this.products = []
-        this.PRODUCTSLIST = products
+        this.PRODUCTSLIST = JSON.parse(fs.readFileSync('./src/data/products.json', {encoding:'utf8'}))
     }
 
     getProduct() {
@@ -30,6 +30,20 @@ class ProductServices {
     getSingleProduct(id) {
         this.getProduct()
         return this.products.find(item=>item.id==id) || null
+    }
+
+    sortPriceAsc() {
+        this.getProduct()
+        return this.products.sort((a,b)=>{
+            return a.price.standard.amount-b.price.standard.amount
+        })
+    }
+
+    sortPriceDesc() {
+        this.getProduct()
+        return this.products.sort((a,b)=>{
+            return b.price.standard.amount-a.price.standard.amount
+        })
     }
 }
 

@@ -1,0 +1,24 @@
+{
+  "name": "e-shop_react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd frontend && npm start",
+    "backend": "cd backend && npm start",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victordruc/e-shop_react.git"
+  },
+  "author": "Viktor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victordruc/e-shop_react/issues"
+  },
+  "homepage": "https://github.com/victordruc/e-shop_react#readme",
+  "dependencies": {
+    "concurrently": "^6.3.0"
+  }
+}

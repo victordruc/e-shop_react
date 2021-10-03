@@ -1,11 +1,15 @@
 const express = require("express")
+const cors = require("cors")
 const productRouter = require("./src/routes/productRouter")
+const cartRouter = require("./src/routes/cartRouter")
 
 const app = express()
-const port = 3000
+const port = 5000
 
 app.use(express.static("public"))
+app.use(cors())
 app.use('/api', productRouter)
+app.use('/api', cartRouter)
 
 // app.get("/", (req,res)=>{
 //     res.send("Home page")

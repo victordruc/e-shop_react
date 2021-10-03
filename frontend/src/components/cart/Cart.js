@@ -25,9 +25,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Cart = () => {
-  const { state, dispatch } = useContext(CartContext);
+  const { state, dispatch, cartAxios } = useContext(CartContext);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const removeAll = (id) => {
+    dispatch({type: "pending"})
+    cartAxios.deleteAll(id).then(res=>{
+      dispatch({type:"removeAllQuantity", payload:res})
+    }).catch((e)=>{
+      console.error(e)
+      dispatch({ type: "error"})
+    })
+  }
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,7 +49,6 @@ const Cart = () => {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
   return (
     <div>
       <IconButton
@@ -48,7 +57,7 @@ const Cart = () => {
         color="inherit"
         onClick={handleClick}
       >
-        <Badge color="secondary" badgeContent={state.count}>
+        <Badge color="secondary" badgeContent={state.cart.count}>
           <ShoppingCartIcon />
         </Badge>
       </IconButton>
@@ -107,8 +116,9 @@ const Cart = () => {
                     <IconButton
                       edge="end"
                       aria-label="delete"
+                      disabled={state.isPending}
                       onClick={() =>
-                        dispatch({ type: "removeAllQuantity", id: product.id })
+                        removeAll(product.id)
                       }
                     >
                       <DeleteIcon />

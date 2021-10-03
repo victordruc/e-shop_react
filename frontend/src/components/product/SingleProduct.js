@@ -1,13 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ProductContent from "./ProductContent";
-import ProductServices from "../../models/ProductServices";
 import AddToCartButton from "../cart/AddToCartButton";
 import Carousel from "../ui/Carousel";
 import { useParams, useHistory, Redirect } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { HOCStateProducts, ProductContext } from "../../state/HOCStateProducts";
+import { useEffect, useContext } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,11 +33,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SingleProduct = () => {
+const SingleProduct = ({api}) => {
+  const { state, dispatch } = useContext(ProductContext);
   const classes = useStyles();
   let { id } = useParams();
   let history = useHistory();
-  const products = new ProductServices().getSingleProduct(id)
+  useEffect(()=>{
+    api.getOne(id).then(res=>dispatch({type:"getOne", payload:res})).catch((e)=>{
+      console.error(e)
+      dispatch({type:"error"})
+    })
+  },[api,dispatch,id])
+
+  const products = state.products
+
+  if(state.isPending) {
+    return (
+      <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: "100vh" }}>
+        <CircularProgress />
+      </Box>
+    )  
+  }
 
   if(!products) {
     return <Redirect to="/error"/>
@@ -73,5 +92,4 @@ const SingleProduct = () => {
     </div>
   );
 };
-
-export default SingleProduct;
+export default HOCStateProducts(SingleProduct);
